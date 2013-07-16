@@ -1,7 +1,10 @@
 from Tkinter import *
 
 def main():
-    m1 = PanedWindow(bd=1, bg='white')
+    app = Tk()
+    app.title("Paned Window")
+    
+    m1 = PanedWindow(app, bd=1, bg='white', width=200, height=200)
     m1.pack(fill=BOTH, expand=1)
 
     left = Label(m1, text="left pane")
@@ -16,7 +19,7 @@ def main():
     bottom = Label(m2, text="bottom pane")
     m2.add(bottom)
 
-    mainloop()
+    app.mainloop()
 
 if __name__ == '__main__':
     main()
