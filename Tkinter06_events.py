@@ -18,7 +18,7 @@ def main():
     frame.bind("<Key>", key)
     frame.bind("<Button-1>", callback)
     frame.bind("<B1-Motion>", enter_callback)
-    frame.pack(fill=BOTH)
+    frame.pack(fill=BOTH, expand=1)
 
     app.mainloop()
 
