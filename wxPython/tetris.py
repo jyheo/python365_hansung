@@ -8,7 +8,8 @@ class Tetris(wx.Frame):
         self.statusbar = self.CreateStatusBar()
         self.statusbar.SetStatusText('0')
         self.board = Board(self)
-        self.board.SetFocus()
+        self.Bind(wx.EVT_KEY_DOWN, self.board.OnKeyDown)
+        self.SetFocus()
         self.board.start()
 
         self.Centre()
@@ -37,7 +38,7 @@ class Board(wx.Panel):
         self.isPaused = False
 
         self.Bind(wx.EVT_PAINT, self.OnPaint)
-        self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
+        #self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
         self.Bind(wx.EVT_TIMER, self.OnTimer, id=Board.ID_TIMER)
 
         self.clearBoard()
@@ -377,6 +378,6 @@ class Shape(object):
         return result
 
 
-app = wx.App()
+app = wx.App(redirect=False)
 Tetris(None, -1, 'Tetris')
 app.MainLoop()
