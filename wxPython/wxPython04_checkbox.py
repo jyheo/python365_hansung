@@ -26,7 +26,7 @@ class MainFrame(wx.Frame):
         if isChecked:
             self.SetTitle(self.title)            
         else: 
-            self.SetTitle('')         
+            self.SetTitle(' ')  # in Linux, empty string '' does not change the title    
 
 def main():
     app = wx.App(redirect=False)
