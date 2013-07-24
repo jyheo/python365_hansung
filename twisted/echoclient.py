@@ -13,7 +13,8 @@ class EchoClient(LineReceiver):
     def lineReceived(self, line):
         print "receive:", line
         if line==self.end:
-            self.transport.loseConnection()
+            self.transport.loseConnection()  
+            # loseConnection:close gracefully(send all data in buffer), abortConnection(): close right now!
 
 class EchoClientFactory(ClientFactory):
     protocol = EchoClient
