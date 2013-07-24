@@ -7,30 +7,33 @@ from twisted.internet.endpoints import TCP4ServerEndpoint
 
 # This is just about the simplest possible protocol
 class Echo(Protocol):
+    def connectionMade(self):
+        # Echo object has a factory attribute.
+        self.factory.client_num += 1
+
+    def connectionLost(self, reason):
+        self.factory.client_num -= 1
+    
     def dataReceived(self, data):
-        """
-        As soon as any data is received, write it back.
-        """
-        print data
+        print self.factory.client_num, data
         self.transport.write(data)
 
-class EchoFactory(Factory):
-    def __init__(self, proto):
-        self.protocol = proto
+class EchoFactory(ServerFactory):
+    protocol = Echo  # protocl is a Class attribute
 
-    
+    def __init__(self):
+        self.client_num = 0
 
 
 def main():
-    f = ServerFactory()
-    f.protocol = Echo
-    reactor.listenTCP(8000, f)
+    f = EchoFactory()
+    reactor.listenTCP(8000, f) # Low-level API
     reactor.run()
 
 def main2():
-    endpoint = TCP4ServerEndpoint(reactor, 8000)
-    endpoint.listen(EchoFactory(Echo))
+    endpoint = TCP4ServerEndpoint(reactor, 8000) # High-level API
+    endpoint.listen(EchoFactory())
     reactor.run()
 
 if __name__ == '__main__':
-    main2()
+    main()
