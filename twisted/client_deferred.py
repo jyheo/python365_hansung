@@ -6,13 +6,13 @@ class Greeter(Protocol):
         self.transport.write("MESSAGE %s\n" % msg)
 
         
-def gotProtocol(p):
-    p.sendMessage("Hello")
-    reactor.callLater(1, p.sendMessage, "This is sent in a second")
-    reactor.callLater(2, p.transport.loseConnection)
+def gotProtocol(proto):
+    proto.sendMessage("Hello")
+    reactor.callLater(1, proto.sendMessage, "This is sent in a second")
+    reactor.callLater(2, proto.transport.loseConnection)
 
         
 point = TCP4ClientEndpoint(reactor, "localhost", 8000)
-d = connectProtocol(point, Greeter())
-d.addCallback(gotProtocol)
+deferred = connectProtocol(point, Greeter())
+deferred.addCallback(gotProtocol)
 reactor.run()
